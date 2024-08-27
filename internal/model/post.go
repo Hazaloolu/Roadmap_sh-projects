@@ -13,13 +13,3 @@ type Post struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
-
-var ExamplePost = Post{
-	Title:     "Introduction to Golang",
-	Content:   "Golang, or Go, is an open-source programming language designed for simplicity and efficiency...",
-	Category:  "Programming",
-	Tags:      []string{"Golang", "Programming", "Tutorial"},
-	UserID:    1, // Assume this user ID exists in the database
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
-}

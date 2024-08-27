@@ -11,11 +11,3 @@ type User struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
-
-var ExampleUser = User{
-	Username:  "john_doe",
-	Email:     "john.doe@example.com",
-	Password:  "securepassword123", // Ensure this is hashed in a real application
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
-}
