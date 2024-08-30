@@ -1,6 +1,7 @@
 package main
 
 import (
+	"blog_api/internal/router"
 	"blog_api/internal/storage"
 	"context"
 	"log"
@@ -28,10 +29,12 @@ func main() {
 
 	// Initialize the database
 	storage.InitDB()
+	r := router.SetUpRouter()
 
 	// Set up the server
 	server := &http.Server{
-		Addr: ":8080",
+		Addr:    ":8080",
+		Handler: r,
 	}
 
 	go func() {

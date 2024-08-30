@@ -2,23 +2,11 @@ package auth
 
 import (
 	"blog_api/internal/model"
-	"crypto/rand"
-	"encoding/base64"
 	"errors"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"golang.org/x/crypto/bcrypt"
 )
-
-func generateSecureKey() string {
-	secretBytes := make([]byte, 32)
-	_, err := rand.Read(secretBytes)
-	if err != nil {
-		panic(err)
-	}
-	return base64.RawURLEncoding.EncodeToString(secretBytes)
-}
 
 var secretKey = generateSecureKey()
 
@@ -28,15 +16,6 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(bytes), err
-}
-
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
 func GenerateJwt(user *model.User, secretKey string) (string, error) {
 	claims := &Claims{
 		Username: user.Username,
@@ -60,11 +39,15 @@ func ValidateJwt(tokenString string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secretKey), nil
 	})
+
 	if err != nil {
 		return nil, err
 	}
+
 	if !token.Valid {
 		return nil, errors.New("invalid token")
 	}
+
 	return claims, nil
+
 }
